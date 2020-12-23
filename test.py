@@ -7,26 +7,48 @@ from web_scrap.players_stats import get_players_stats
 
 
 
-def find_team_id(name):
+def find_team_id(team_name):
 	teams = Team.query.all()
 	for t in teams:
-		if t.name == name:
+		if t.name == team_name:
 			return t.id
 
-def check_player(name):
+def player_exists(name):
 	players = Player.query.all()
 
 	for p in players:
 		if p.name == name:
 			return True
-
 	return False
+
+def update_players(team, team_name):
+	for p in team:
+		player = Player.query.filter_by(name = p['name']).first()
+
+		if player:
+			player.age = int(p['age'][:2])
+			player.shirt_number = p['shirt_number']
+			player.total_matches += 1
+			player.total_goals += int(p['goals'])
+			player.total_assists += int(p['assists'])
+			player.team_id = find_team_id(team_name)
+
+			db.session.commit()
+			print('updated player ' + player.name)
+
+		else:
+			player = Player(name = p['name'], age = int(p['age'][:2]), nationality = p['nationality'],
+							shirt_number = p['shirt_number'], total_matches = 0,
+							total_goals = 0, total_assists = 0, team_id = find_team_id(team_name))
+			db.session.add(player)
+			db.session.commit()
+			print('added new player ' + player.name)
+
 
 link = "https://fbref.com/en/comps/9/schedule/Premier-League-Scores-and-Fixtures"
 
-print(check_player("LUKA"))
 
-all_matches_links = get_all_match_links(link)[1:]
+all_matches_links = get_all_match_links(link)[1:2]
 
 for match in all_matches_links:
 	m = get_match(match)
@@ -42,7 +64,5 @@ for match in all_matches_links:
 	t1_players = players['team1']
 	t2_players = players['team2']
 
-	for p in t1_players:
-		player = Player(name = p['name'], age = p['age'], nationality = p['nationality'], shirt_number = p['shirt_number'],
-						total_matches = 1, total_goals = 0, total_assists = 0, team_id = find_team_id(m['team1']) )
-
+	update_players(t1_players, m['team1'])
+	update_players(t2_players, m['team2'])
