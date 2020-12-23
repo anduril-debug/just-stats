@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>JUST STATS</title>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'styles.css') }}">
+</head>
+<body>
+	<ul>
+		<li><a href="{{ url_for('teams') }}">teams</a></li>
+	</ul>
+	{% block content %}
+	{% endblock %}
+</body>
+</html>

@@ -1,22 +1,16 @@
-from flask import render_template
+from flask import render_template,url_for
 from just_stats import app
-from just_stats.models import Player,Match_Player_Stats,Match
+from just_stats.models import Team,Player,Match_Player_Stats,Match
 
 
 
 @app.route('/')
 def index():
-	return "HELLO WORLD"
-
-
-@app.route('/players')
-def players_view():
-	players = Players.query.all()
-	return render_template('players.html', players = players)
+	return render_template('base.html')
 
 
 
-@app.route('/matches')
-def matches_view():
-	matches = Match.query.all()
-	return render_template('matches.html', matches = matches)
+@app.route('/teams')
+def teams():
+	teams = Team.query.all()
+	return render_template('teams.html', teams = teams)

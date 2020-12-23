@@ -6,9 +6,9 @@ from just_stats import db
 class Match(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	first_team = db.Column(db.String(120), nullable=False)
-	first_team_score = db.Column(db.String(5), nullable=False)
+	first_team_score = db.Column(db.Integer, nullable=False)
 	second_team = db.Column(db.String(120), nullable=False)
-	second_team_score = db.Column(db.String(5), nullable=False)
+	second_team_score = db.Column(db.Integer, nullable=False)
 	date = db.DateTime()
 	players_stats = db.relationship("Match_Player_Stats", backref='match', lazy=True)
 
@@ -20,9 +20,12 @@ class Match(db.Model):
 class Team(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	name = db.Column(db.String(120), nullable=False)
-	points = db.Column(db.Integer)
-	goals_scored = db.Column(db.Integer)
-	goals_concended = db.Column(db.Integer)
+	points = db.Column(db.Integer, nullable=False)
+	wins = db.Column(db.Integer, nullable=False)
+	draws = db.Column(db.Integer, nullable=False)
+	loses = db.Column(db.Integer, nullable=False)
+	goals_scored = db.Column(db.Integer, nullable=False)
+	goals_concended = db.Column(db.Integer, nullable=False)
 	players = db.relationship("Player", backref="team", lazy=True)
 
 	def __repr__(self):
@@ -33,7 +36,7 @@ class Player(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	name = db.Column(db.String(120), nullable=False)
 	age = db.Column(db.Integer, nullable=False)
-	nationality = db.Column(db.Integer, nullable=False)
+	nationality = db.Column(db.String(120), nullable=False)
 	shirt_number = db.Column(db.String(5))
 	total_matches = db.Column(db.Integer)
 	total_goals = db.Column(db.Integer)

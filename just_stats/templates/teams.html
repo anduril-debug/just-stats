@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+
+{% block content%}
+	<h1>TEAMS</h1>
+	<table class="teams_table">
+		<tr>
+			<th>Team</th>
+			<th>Points</th>
+			<th>Wins</th>
+			<th>Draws</th>
+			<th>Loses</th>
+			<th>Goals Scored</th>
+			<th>Goals Concended</th>
+		</tr>
+		{% if teams %}
+			{% for team in teams %}
+			<tr>
+				<th>{{ team.name }}</th>
+				<th>{{ team.points }}</th>
+				<th>{{ team.wins }}</th>
+				<th>{{ team.draws }}</th>
+				<th>{{ team.loses }}</th>						
+				<th>{{ team.goals_scored }}</th>
+				<th>{{ team.goals_concended }}</th>
+			</tr>
+			{% endfor %}
+
+		{% endif %}
+	</table>
+
+
+{% endblock %}
