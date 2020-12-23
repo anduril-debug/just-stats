@@ -9,6 +9,8 @@ class Match(db.Model):
 	first_team_score = db.Column(db.Integer, nullable=False)
 	second_team = db.Column(db.String(120), nullable=False)
 	second_team_score = db.Column(db.Integer, nullable=False)
+	team1_pos = db.Column(db.String(5))
+	team2_pos = db.Column(db.String(5))
 	date = db.DateTime()
 	players_stats = db.relationship("Match_Player_Stats", backref='match', lazy=True)
 
