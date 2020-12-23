@@ -3,17 +3,30 @@ from just_stats import db
 
 
 
-class Game(db.Model):
+class Match(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	first_team = db.Column(db.String(120), nullable=False)
 	first_team_score = db.Column(db.String(5), nullable=False)
 	second_team = db.Column(db.String(120), nullable=False)
 	second_team_score = db.Column(db.String(5), nullable=False)
 	date = db.DateTime()
-	players_stats = db.relationship("Match_Player_Stats", backref='game', lazy=True)
+	players_stats = db.relationship("Match_Player_Stats", backref='match', lazy=True)
 
 	def __repr__(self):
 		return f"{self.first_team} {self.first_team_score} - {self.second_team_score} {self.second_team}"
+
+
+
+class Team(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	name = db.Column(db.String(120), nullable=False)
+	points = db.Column(db.Integer)
+	goals_scored = db.Column(db.Integer)
+	goals_concended = db.Column(db.Integer)
+	players = db.relationship("Player", backref="team", lazy=True)
+
+	def __repr__(self):
+		return f"{self.name}"
 
 
 class Player(db.Model):
@@ -25,6 +38,7 @@ class Player(db.Model):
 	total_matches = db.Column(db.Integer)
 	total_goals = db.Column(db.Integer)
 	total_assists = db.Column(db.Integer)
+	team_id = db.Column(db.Integer, db.ForeignKey('team.id'), nullable=False)
 
 	def __repr__(self):
 		return f"{self.name}"
@@ -36,8 +50,7 @@ class Player(db.Model):
 
 class Match_Player_Stats(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
-	match_id = db.Column(db.Integer, db.ForeignKey('game.id'), nullable=False)
-	player_id = db.Column(db.Integer, db.ForeignKey('player.id'), nullable=False)
+	match_id = db.Column(db.Integer, db.ForeignKey('match.id'), nullable=False)
 	goals = db.Column(db.Integer, nullable=False)
 	assists = db.Column(db.Integer, nullable=False)
 	red_cards = db.Column(db.Integer, nullable=False)

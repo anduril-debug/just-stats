@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Players</title>
+</head>
+<body>
+	{% for player in players %}
+		<span>name {{ player.name }}</span>
+		<br>
+		<span>total matches {{ player.total_matches }}</span>
+		<br>
+		<span>total goals {{ player.total_goals }}</span>
+		<br>
+		<span>total assists {{ player.total_assits }}</span>
+		<br>
+
+	{% endfor %}
+</body>
+</html>
