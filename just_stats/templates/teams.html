@@ -5,24 +5,26 @@
 	<h1>TEAMS</h1>
 	<table class="teams_table">
 		<tr>
+			<th></th>
 			<th>Team</th>
-			<th>Points</th>
+			<th>Matchs Played</th>
 			<th>Wins</th>
-			<th>Draws</th>
 			<th>Loses</th>
-			<th>Goals Scored</th>
-			<th>Goals Concended</th>
+			<th>Draws</th>
+			<th>Goals</th>
+			<th>Points</th>
 		</tr>
 		{% if teams %}
 			{% for team in teams %}
 			<tr>
+				<th>{{ teams.index(team) + 1 }}</th>
 				<th>{{ team.name }}</th>
-				<th>{{ team.points }}</th>
+				<th>{{ team.wins + team.draws + team.loses }}</th>
 				<th>{{ team.wins }}</th>
 				<th>{{ team.draws }}</th>
 				<th>{{ team.loses }}</th>						
-				<th>{{ team.goals_scored }}</th>
-				<th>{{ team.goals_concended }}</th>
+				<th>{{ team.goals_scored }} : {{ team.goals_concended }}</th>
+				<th>{{ team.points }}</th>
 			</tr>
 			{% endfor %}
 

@@ -11,7 +11,7 @@ class Match(db.Model):
 	second_team_score = db.Column(db.Integer, nullable=False)
 	team1_pos = db.Column(db.String(5))
 	team2_pos = db.Column(db.String(5))
-	date = db.DateTime()
+	date = db.Column(db.String(120), nullable=False)
 	players_stats = db.relationship("Match_Player_Stats", backref='match', lazy=True)
 
 	def __repr__(self):
@@ -44,6 +44,7 @@ class Player(db.Model):
 	total_goals = db.Column(db.Integer)
 	total_assists = db.Column(db.Integer)
 	team_id = db.Column(db.Integer, db.ForeignKey('team.id'), nullable=False)
+	games_stats = db.relationship('Match_Player_Stats', backref='player', lazy=True)
 
 	def __repr__(self):
 		return f"{self.name}"
@@ -56,6 +57,7 @@ class Player(db.Model):
 class Match_Player_Stats(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	match_id = db.Column(db.Integer, db.ForeignKey('match.id'), nullable=False)
+	player_id = db.Column(db.Integer, db.ForeignKey('player.id'), nullable=False)
 	goals = db.Column(db.Integer, nullable=False)
 	assists = db.Column(db.Integer, nullable=False)
 	red_cards = db.Column(db.Integer, nullable=False)
@@ -86,8 +88,12 @@ class Match_Player_Stats(db.Model):
 
 
 
+class Used_Link(db.Model):
+	used_link = db.Column(db.String(1024), nullable=False, primary_key=True)
 
 
+	def __repr__(self):
+		return self.used_link
 
 
 

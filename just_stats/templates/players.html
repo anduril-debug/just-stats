@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+	<table class="teams_table">
+		<tr>
+			<th>Name</th>
+			<th>Nationality</th>
+			<th>Goals</th>
+			<th>Assists</th>
+			<th>Matches Player</th>
+			<th>Team</th>
+		</tr>
+		{% for player in players %}
+			{% if player.total_goals > 0 or player.total_assists > 0 %}
+				<tr>
+					<th>{{ player.name }}</th>
+					<th>{{ player.nationality[-3:] }}</th>
+					<th>{{ player.total_goals }}</th>
+					<th>{{ player.total_assists }}</th>
+					<th>{{ player.total_matches }}</th>
+					<th>{{ teams.query.filter_by(id = player.team_id).first() }}</th>
+				</tr>
+			{% endif %}
+		{% endfor %}
+	</table>
+
+{% endblock %}

@@ -1,4 +1,4 @@
-from just_stats.models import Match,Team,Player,Match_Player_Stats
+from just_stats.models import Match,Team,Player,Match_Player_Stats,Used_Link
 from just_stats import db
 from web_scrap.all_games import get_match, get_all_match_links
 from web_scrap.match_detail import get_match_possessions
@@ -40,7 +40,6 @@ def update_teams(team1, team2, team1_score, team2_score):
 
 	db.session.commit()
 
-
 def find_team_id(team_name):
 	teams = Team.query.all()
 	for t in teams:
@@ -56,6 +55,12 @@ def player_exists(name):
 	return False
 
 def update_players(team, team_name):
+
+	for p in team:
+		for k,v in p.items():
+			if v == '' or v == ' ' or v == False or v == None:
+				p[k] = '0'	
+
 	for p in team:
 		player = Player.query.filter_by(name = p['name']).first()
 
@@ -72,37 +77,81 @@ def update_players(team, team_name):
 
 		else:
 			player = Player(name = p['name'], age = int(p['age'][:2]), nationality = p['nationality'],
-							shirt_number = p['shirt_number'], total_matches = 0,
-							total_goals = 0, total_assists = 0, team_id = find_team_id(team_name))
+							shirt_number = p['shirt_number'], total_matches = 1,
+							total_goals = p['goals'], total_assists = p['assists'], team_id = find_team_id(team_name))
 			db.session.add(player)
 			db.session.commit()
 			print('added new player ' + player.name)
 
+def set_players_match_stats(players, match_id):
+	
+	for player in players:
+		
+		p = Player.query.filter_by(name = player['name']).first()
+
+		for k,v in player.items():
+			if v == '' or v == ' ' or v == False or v == None:
+				player[k] = 0		
+
+		stats = Match_Player_Stats( match_id = int(match_id), player_id = int(p.id), goals = int(player['goals']),
+					assists = int(player['assists']), red_cards = int(player["cards_red"]), yellow_cards = int(player['cards_yellow']),
+					minutes_played = int(player['minutes_played']), pens_made = int(player['penalties_made']), pens_att = int(player['penalties_att']), total_shots = int(player['total_shots']), shots_on_target = int(player['shots_on_target']),
+					touches = int(player['touches']), pressures = int(player['pressures']), tackles = int(player['tackles']), interceptions = int(player['interceptions']), blocks = int(player['blocks']),
+					passes = int(player['passes']), passes_completed = int(player['passes_completed']), passes_pct = float(player['passes_pct']), passes_progressive_distance = int(player['passes_progressive_distance']),
+					carries = int(player['carries']), carry_progressive_distance = int(player['carry_progressive_distance']), dribbles = int(player['dribbles']), dribbles_completed = int(player['dribbles_completed']))
+		print("added stats for " + player['name'])
+		db.session.add(stats)
+		db.session.commit()
+
+def link_is_used(link):
+
+	links = Used_Link.query.all()
+
+	for l in links:
+		if l.used_link == link:
+			return True
+	return False
 
 link = "https://fbref.com/en/comps/9/schedule/Premier-League-Scores-and-Fixtures"
 
+def main(link):
 
-all_matches_links = get_all_match_links(link)[1:5]
+	all_matches_links = get_all_match_links(link)[1:]
 
-for match in all_matches_links:
-	m = get_match(match)
+	for match in all_matches_links:
+		
+		if link_is_used(match):
+			print(match + ' is used!')
+			continue
 
-	current_match = Match(first_team = m['team1'], first_team_score = int(m['team1_score']),
-							second_team = m['team2'], second_team_score = int(m['team2_score']),
-							team1_pos = get_match_possessions(match)['team1_possession'],
-							team2_pos = get_match_possessions(match)['team2_possession'],
-							date = m['date'])
-	print(current_match)
-	print(current_match.date)
+		print(match)
+		m = get_match(match)
+		
+		current_match = Match(first_team = m['team1'], first_team_score = int(m['team1_score']),
+								second_team = m['team2'], second_team_score = int(m['team2_score']),
+								team1_pos = get_match_possessions(match)['team1_possession'],
+								team2_pos = get_match_possessions(match)['team2_possession'],
+								date = m['date'])
+		db.session.add(current_match)
+		db.session.commit()
+		
+		print(current_match)
+		print(current_match.date)
 
-	update_teams(current_match.first_team, current_match.second_team,
-				 current_match.first_team_score, current_match.second_team_score)
+		update_teams(current_match.first_team, current_match.second_team,
+					 current_match.first_team_score, current_match.second_team_score)
+
+		players = get_players_stats(match)
 
 
-	players = get_players_stats(match)
+		update_players(players['team1'], m['team1'])
+		update_players(players['team2'], m['team2'])
 
-	t1_players = players['team1']
-	t2_players = players['team2']
+		set_players_match_stats(players['team1'], match_id = current_match.id)
+		set_players_match_stats(players['team2'], match_id = current_match.id)
 
-	update_players(t1_players, m['team1'])
-	update_players(t2_players, m['team2'])
+		used_link = Used_Link(used_link = match)
+		db.session.add(used_link)
+		db.session.commit()
+
+main(link)

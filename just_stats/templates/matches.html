@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+	{% for match in matches %}
+		<a href="{{ url_for('match_detail', match_id = match.id) }}">{{ match }}</a>
+		<br>
+	{% endfor %}
+
+{% endblock %}
