@@ -82,7 +82,7 @@ class Match_Player_Stats(db.Model):
 	dribbles_completed = db.Column(db.Integer, nullable=False)
 
 	def __repr__(self):
-		return f"{self.match_id} stats of {self.player_id}"
+		return f"game ID {self.match_id} stats of player ID {self.player_id}"
 
 
 
