@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+		{{ match }}
+		<br>
+		{{ player }}
+		<table class="teams_table">
+
+			<tr>
+				<th>Minutes Played</th>
+				<td>{{ match_stats.minutes_played }} min </td>
+			</tr>
+
+			<tr>
+				<th>Goals</th>
+				<td>{{ match_stats.goals }} </td>
+			</tr>
+
+			<tr>
+				<th>Assists</th>
+				<td>{{ match_stats.assists }}</td>
+			</tr>
+
+			<tr>
+				<th>Total Shots</th>
+				<td>{{ match_stats.total_shots }}</td>
+			</tr>
+
+			<tr>
+				<th>Shots on target</th>
+				<td>{{ match_stats.shots_on_target }}</td>
+			</tr>
+
+			<tr>
+				<th>Yellow Cards</th>
+				<td>{{ match_stats.yellow_cards }}</td>
+			</tr>
+
+			<tr>
+				<th>Red Card</th>
+				{% if match_stats.red_cards > 0 %}
+					<td>YES</td>
+				{% else %}
+					<td>NO</td>
+				{% endif %}
+			</tr>
+
+			<tr>
+				<th>Touches</th>
+				<td>{{ match_stats.touches }}</td>
+			</tr>
+
+			<tr>
+				<th>Presssures</th>
+				<td>{{ match_stats.pressures }}</td>
+			</tr>
+
+			<tr>
+				<th>Tackles</th>
+				<td>{{ match_stats.tackles }}</td>
+			</tr>
+
+			<tr>
+				<th>Interceptions</th>
+				<td>{{ match_stats.interceptions }}</td>
+			</tr>
+
+			<tr>
+				<th>Blocks</th>
+				<td>{{ match_stats.blocks }}</td>
+			</tr>
+
+			<tr>
+				<th>Passes</th>
+				<td>{{ match_stats.passes }}</td>
+			</tr>	
+				<th>Passes Completed</th>
+				<td>{{ match_stats.passes_completed }}</td>
+			
+			<tr>
+				<th>Passes %</th>
+				<td>{{ match_stats.passes_pct }}</td>
+			</tr>
+
+			<tr>	
+				<th>Passes Pro. Distance</th>
+				<td>{{ match_stats.passes_progressive_distance }}</td>
+			</tr>
+
+			<tr>
+				<th>Carries</th>
+				<td>{{ match_stats.carries }}</td>
+			</tr>
+
+			<tr>
+				<th>Carry Pro. Distance</th>
+				<td>{{ match_stats.carry_progressive_distance }}</td>
+			</tr>
+
+			<tr>	
+				<th>Dribbles</th>
+				<td>{{ match_stats.dribbles }}</td>
+			</tr>
+
+			<tr>
+				<th>Dribbles Completed</th>
+				<td>{{ match_stats.dribbles_completed }} </td>
+			</tr>
+
+			<tr>
+				<th>Penalties Made</th>
+				<td> {{ match_stats.pens_made }}</td>
+			</tr>
+
+			<tr>
+				<th>Penalties Att</th>
+				<td>{{ match_stats.pens_att }}</td>
+			</tr>
+
+		</table>
+{% endblock %}
