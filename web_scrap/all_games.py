@@ -7,11 +7,8 @@ def get_all_match_links(link):
 
 	r = requests.get(link)
 
-
 	soup = BeautifulSoup(r.content, 'html.parser')
-
 	scores = soup.find_all(attrs={"data-stat": "score"})
-
 
 	all_matches_links = []
 
@@ -53,11 +50,8 @@ def get_match(link):
 			tmp_dict["team2"] = teams_list[i]
 
 
-	#!!!!ADDING TO DICTIONARY TEAM1 AND TEAM2!!!!
-
 
 	#ADDING SCORES TO DICTIONARY TEAM1_SCORE AND TEAM2_SCORE
-
 	teams_score = []
 	for i in scores:
 		teams_score.append(i.text)
@@ -68,15 +62,10 @@ def get_match(link):
 		else:
 			tmp_dict["team2_score"] = teams_score[i]
 
-	#!!!!ADDING SCORES TO DICTIONARY TEAM1_SCORE AND TEAM2_SCORE!!!
 
 
 	#ADDING DATETIME TO DICTIONARY
-
 	tmp_dict["date"] = f"{date['data-venue-date']} {date['data-venue-time']}"
-
-
-
 
 
 	return tmp_dict

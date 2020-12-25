@@ -1,14 +1,11 @@
 from bs4 import BeautifulSoup 
 import requests
 
-link = "https://fbref.com/en/matches/cc230451/Liverpool-Leicester-City-November-22-2020-Premier-League"
-
 
 def get_players_stats(link):
+
 	r = requests.get("https://fbref.com"+link)
-
 	soup = BeautifulSoup(r.content, 'html.parser')
-
 
 	tables = soup.find_all('table', class_="stats_table")
 	real_tables = [tables[0], tables[7]]
@@ -25,8 +22,6 @@ def get_players_stats(link):
 		elif i == 1:
 			rows = real_tables[i].find_all('tr')
 			team2 = rows[2:-1]
-
-
 
 
 	team1_players = []
