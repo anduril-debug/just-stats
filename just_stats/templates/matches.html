@@ -2,7 +2,7 @@
 
 
 {% block content %}
-	{% for match in matches %}
+	{% for match in matches[::-1] %}
 		<a href="{{ url_for('match_detail', match_id = match.id) }}">{{ match }}</a>
 		<br>
 	{% endfor %}
