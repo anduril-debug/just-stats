@@ -54,3 +54,8 @@ def match_stats(player_id, match_id):
 	match = Match.query.filter_by(id = match_id).first()
 	player = Player.query.filter_by(id = player_id).first()
 	return render_template('match_stats.html', match_stats = match_stats, match = match, player = player)
+
+
+@app.route('/test')
+def test():
+	return {"test" : "test textinho"}
