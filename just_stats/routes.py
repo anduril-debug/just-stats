@@ -1,12 +1,13 @@
 from flask import render_template,url_for
 from just_stats import app
-from just_stats.models import Team,Player,Match_Player_Stats,Match
+from just_stats.models import Team,Player,Match_Player_Stats,Match,Upcoming_Match
 
 
 
 @app.route('/')
 def index():
-	return render_template('index.html', matches = matches)
+	upcomings = Upcoming_Match.query.all()
+	return render_template('index.html', matches = matches, upcomings = upcomings)
 
 
 

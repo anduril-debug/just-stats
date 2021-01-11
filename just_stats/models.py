@@ -95,6 +95,7 @@ class Used_Link(db.Model):
 
 
 class Upcoming_Match(db.Model):
+	uuid = db.Column(db.String(512), primary_key=True)
 	team1 = db.Column(db.String(120), nullable=False)
 	team2 = db.Column(db.String(120), nullable=False)
 	date = db.Column(db.String(50), nullable=False)

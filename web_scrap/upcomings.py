@@ -77,4 +77,3 @@ def next_five_days(link):
 
 
 
-print(next_five_days('https://fbref.com/en/comps/9/schedule/Premier-League-Scores-and-Fixtures'))

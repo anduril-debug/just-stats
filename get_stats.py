@@ -1,9 +1,10 @@
-from just_stats.models import Match,Team,Player,Match_Player_Stats,Used_Link
+from just_stats.models import Match,Team,Player,Match_Player_Stats,Used_Link,Upcoming_Match
 from just_stats import db
 from web_scrap.all_games import get_match, get_all_match_links
 from web_scrap.match_detail import get_match_possessions
 from web_scrap.players_stats import get_players_stats
-
+from web_scrap.upcomings import get_all_matches,next_five_days
+import uuid 
 
 def link_is_used(link):
 
@@ -155,3 +156,20 @@ def main(link):
 		db.session.add(used_link)
 		db.session.commit()
 
+
+
+def upcoming_games():
+	upcomings = next_five_days("https://fbref.com/en/comps/9/schedule/Premier-League-Scores-and-Fixtures")
+
+	upcoming_games = Upcoming_Match.query.delete()
+
+	for match in upcomings:
+		current_match = Upcoming_Match(
+			uuid = uuid.uuid4(),
+			team1 = match['team1'],
+			team2 = match['team2'],
+			date = match['date_time'])
+
+		db.session.add(current_match)
+		db.session.commit()
+	return upcomings
