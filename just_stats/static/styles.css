@@ -28,6 +28,7 @@ tr:nth-child(even) {
 }
 
 
+
 @media only screen and (max-width: 800px) {
   .wins {
   	display: none;

@@ -108,7 +108,7 @@ def set_players_match_stats(players, match_id):
 					touches = int(player['touches']), pressures = int(player['pressures']), tackles = int(player['tackles']), interceptions = int(player['interceptions']), blocks = int(player['blocks']),
 					passes = int(player['passes']), passes_completed = int(player['passes_completed']), passes_pct = float(player['passes_pct']), passes_progressive_distance = int(player['passes_progressive_distance']),
 					carries = int(player['carries']), carry_progressive_distance = int(player['carry_progressive_distance']), dribbles = int(player['dribbles']), dribbles_completed = int(player['dribbles_completed']))
-		print("added stats for " + player['name'])
+		print("added current match stats for " + player['name'])
 		db.session.add(stats)
 		db.session.commit()
 

@@ -90,12 +90,17 @@ class Match_Player_Stats(db.Model):
 
 class Used_Link(db.Model):
 	used_link = db.Column(db.String(1024), nullable=False, primary_key=True)
-
-
 	def __repr__(self):
 		return self.used_link
 
 
+class Upcoming_Match(db.Model):
+	team1 = db.Column(db.String(120), nullable=False)
+	team2 = db.Column(db.String(120), nullable=False)
+	date = db.Column(db.String(50), nullable=False)
+
+	def __repr__(self):
+		return self.team1 + " vs " + self.team2
 
 
 

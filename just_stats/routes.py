@@ -6,7 +6,7 @@ from just_stats.models import Team,Player,Match_Player_Stats,Match
 
 @app.route('/')
 def index():
-	return render_template('base.html')
+	return render_template('index.html', matches = matches)
 
 
 
