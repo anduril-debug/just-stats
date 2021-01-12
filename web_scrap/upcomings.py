@@ -66,7 +66,7 @@ def next_five_days(link):
 	next_five_days_games = []
 
 	now = datetime.datetime.now()
-	five_days = now + datetime.timedelta(days = 5)
+	five_days = now + datetime.timedelta(days = 3)
 
 	for match in all_matches:
 		if match['date_time'] > now and match['date_time'] < five_days:

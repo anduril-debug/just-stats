@@ -1,13 +1,36 @@
 from flask import render_template,url_for
 from just_stats import app
 from just_stats.models import Team,Player,Match_Player_Stats,Match,Upcoming_Match
-
+import datetime
 
 
 @app.route('/')
 def index():
 	upcomings = Upcoming_Match.query.all()
-	return render_template('index.html', matches = matches, upcomings = upcomings)
+	alt_names = {
+		"Brighton": "Brighton & Hove Albion",
+		"Sheffield Utd": "Sheffield United",
+		"Newcastle Utd": "Newcastle United",
+		"Tottenham": "Tottenham Hotspur",
+		"West Ham" : "West Ham United",
+		"Wolves" : "Wolverhampton Wanderers",
+		"Manchester Utd": "Manchester United",
+		"West Brom" : "West Bromwich Albion"
+	}
+
+
+	short_names = {
+		"Burnley" : "BUR", "Everton" : "EVE", "West Ham" : "WHU", "Aston Villa" : "AVA",
+		 "Manchester Utd" : "MUN", "Leeds United" : "LEE", "Tottenham" : "TOT", "Crystal Palace" : "CRY",
+		 "Sheffield Utd" : "SHU", "Brighton" : "BRH", "Wolves" : "WLV", "Arsenal" : "ARS",
+		 "West Brom" : "WBU", "Leicester City" : "LEI",
+		 "Newcastle Utd" : "NEW", "Chelsea" : "CHE",
+		  "Manchester City" : "MCI", "Liverpool" : "LIV", "Southampton" : "SOU", "Fulham" : "FUL"
+	}
+
+
+	return render_template('index.html', matches = matches, upcomings = upcomings, 
+							alt_names = alt_names, short_names = short_names, datetime = datetime)
 
 
 
