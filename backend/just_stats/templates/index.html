@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+
+
+{% block style %}
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/index.css') }}">
+{% endblock %}
+
+
+{% block content %}
+	<div id="head-content">
+		<div class="table-header">
+			<p>მომდევნო სამ დღეში</p>
+			<table class="styled-table">
+			    <tbody>
+			    	{% for upcoming in upcomings %}
+				        <tr class="next-five-days-games">
+
+				            <td>			      	
+				            	{{ datetime.datetime.strptime(upcoming.date, '%Y-%m-%d %H:%M:%S').date().strftime('%B')[:3] }}
+				      			{{ datetime.datetime.strptime(upcoming.date, '%Y-%m-%d %H:%M:%S').date().day }}
+				      		</td>
+				            <td>
+				            	{% if upcoming.team1 in alt_names %}
+				      				{{ short_names[upcoming.team1] }}
+				      				<img src="{{ url_for('static', filename = 'logos/'+alt_names[upcoming.team1]+'.png') }}">
+				      			{% else %}
+				      				{{ short_names[upcoming.team1] }}
+				      				<img src="{{ url_for('static', filename = 'logos/'+upcoming.team1+'.png') }}">
+				      			{% endif %}
+
+				      </td>
+				            <td>{{ upcoming.date[-8:-3] }}</td>
+				            <td>
+				            	{% if upcoming.team2 in alt_names %}
+					      			<img src="{{ url_for('static', filename = 'logos/'+alt_names[upcoming.team2]+'.png') }}">	      	
+					   				{{ short_names[upcoming.team2] }}
+					   			{% else %}
+				      				<img src="{{ url_for('static', filename = 'logos/'+upcoming.team2+'.png') }}">
+				      				{{ short_names[upcoming.team2] }}				   			
+					   			{% endif %}
+				            </td>
+				        </tr>
+			        {% endfor %}
+
+			    </tbody>
+			</table>
+		</div>
+	</div>
+
+
+{% endblock %}
+

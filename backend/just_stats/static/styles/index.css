@@ -1,0 +1,55 @@
+#head-content {
+	 border-bottom: 2px dotted gray;
+	 height: 450px;
+}
+
+.styled-table {
+    border-collapse: collapse;
+    margin: 0 0 0 0;
+    font-size: 15px;
+    font-weight: 500;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+.styled-table thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+}
+
+.styled-table th,
+.styled-table td {
+    padding: 6px 10px;
+}
+
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+
+.next-five-days-games:hover{
+    font-weight: 200;
+    color: #009879;
+}
+.table-head td{
+	text-align: center;
+}
+
+.table-header {
+	margin: 25px 0 0 0;
+	display: inline-table;
+}
+
+.table-header p{
+	font-weight: 500;
+	display: block;
+}
+

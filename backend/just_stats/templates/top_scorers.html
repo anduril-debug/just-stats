@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+	<table class="teams_table">
+		<tr>
+			<th>Name</th>
+			<th>Nationality</th>
+			<th>Goals</th>
+			<th>Assists</th>
+			<th>Matches Player</th>
+			<th>Team</th>
+		</tr>
+		{% for top_scorer in top_scorers %}
+			{% if top_scorer.total_goals > 0 or top_scorer.total_assists > 0 %}
+				<tr>
+					<th><a href="{{ url_for('player_detail', player_id = top_scorer.id)}}">{{ top_scorer.name }}</a></th>
+					<th>{{ top_scorer.nationality[-3:] }}</th>
+					<th>{{ top_scorer.total_goals }}</th>
+					<th>{{ top_scorer.total_assists }}</th>
+					<th>{{ top_scorer.total_matches }}</th>
+					<th>{{ teams.query.filter_by(id = top_scorer.team_id).first() }}</th>
+				</tr>
+			{% endif %}
+		{% endfor %}
+	</table>
+
+{% endblock %}
