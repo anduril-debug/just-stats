@@ -1,8 +1,11 @@
-from flask import render_template,url_for
-from just_stats import app
+from flask import render_template,url_for,request,jsonify
+from flask_restful import Resource, marshal_with
+from just_stats import app, api
 from just_stats.models import Team,Player,Match_Player_Stats,Match,Upcoming_Match
-import datetime
 
+from just_stats.fields import upcomings_fields,teams_fields,matches_fields,players_fields
+
+import datetime
 
 @app.route('/')
 def index():
@@ -80,6 +83,45 @@ def match_stats(player_id, match_id):
 	return render_template('match_stats.html', match_stats = match_stats, match = match, player = player)
 
 
-@app.route('/test')
-def test():
-	return {"test" : "test textinho"}
+
+
+
+class Upcomings(Resource):
+	@marshal_with(upcomings_fields)
+	def get(self):
+		upcomings = Upcoming_Match.query.all()
+		return upcomings,201
+
+
+class All_Teams(Resource):
+	@marshal_with(teams_fields)
+	def get(self):
+		teams = Team.query.all()
+		return teams,201
+
+
+class All_Matches(Resource):
+	@marshal_with(matches_fields)
+	def get(self):
+		matchs = Match.query.all()
+		return matchs,201
+
+
+class All_Players(Resource):
+	@marshal_with(players_fields)
+	def get(self):
+		players = Player.query.all()
+		return players,201
+
+
+class Player_Details(Resource):
+	@marshal_with(players_fields)
+	def get(self,player_id):
+		player = Player.query.filter_by(id = player_id).first()
+		return player,201
+
+api.add_resource(Upcomings, '/api/upcomings')
+api.add_resource(All_Teams, '/api/teams')
+api.add_resource(All_Matches, '/api/matches')
+api.add_resource(All_Players, '/api/players')
+api.add_resource(Player_Details,'/api/player/<int:player_id>')

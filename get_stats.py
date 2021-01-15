@@ -147,8 +147,9 @@ def main(link):
 
 
 		update_players(players['team1'], m['team1'])
+		print("team1 updated")
 		update_players(players['team2'], m['team2'])
-
+		print("team2 updated")
 		set_players_match_stats(players['team1'], match_id = current_match.id)
 		set_players_match_stats(players['team2'], match_id = current_match.id)
 
