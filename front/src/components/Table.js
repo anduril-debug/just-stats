@@ -53,7 +53,7 @@ function Table() {
                     {teams.map(team =>
                         <tr key={team.id}>
                             <td className="position" scope="row">1</td>
-                            <td className="club">{team.name}</td>
+                            <td className="club"><img /> {team.name}</td>
                             <td className="played">{team.wins + team.draws + team.loses}</td>
                             <td className="won">{team.wins}</td>
                             <td className="drawn">{team.draws}</td>
