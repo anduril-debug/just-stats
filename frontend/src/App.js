@@ -1,20 +1,33 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import Navbar from './components/Navbar';
-import TableSection from './components/TableSection';
-import ContentSection from './components/ContentSection';
+import Content from './components/Content';
+import Table from './components/Table';
+import { useDispatch } from 'react-redux';
+
+
+import { fetchTeams } from './redux/teams/teamsSlice';
+
+
 
 function App() {
+
+
+  const dispatch = useDispatch()
+  // const { isLoading, hasError, teams } = useSelector(teamsSelector)
+
+
+  useEffect(() => {
+    dispatch(fetchTeams())
+  }, [dispatch])
+
   return (
     <div className="App">
-
       <Navbar />
+      <div className="container">
+        <Content />
+        <Table />
 
-      <div className="container fill">
-        <div className="contnet row">
-          <TableSection />
-          <ContentSection />
-        </div>
       </div>
     </div>
   );

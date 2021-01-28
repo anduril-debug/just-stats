@@ -1,0 +1,31 @@
+.content {
+    background-color: rgb(140, 155, 124);
+    height: 100%;
+}
+
+
+.hot-content {
+    background-color: rgb(230, 155, 129);
+    height: 400px;
+}
+
+.news {
+    background-color: cornflowerblue;
+}
+
+.table-side {
+    background-color: crimson;
+
+}
+
+
+
+@media screen and (max-width: 1100px){
+    .table-side{
+        display: none;
+    }
+
+    .content-side {
+        width: 100%;
+    }
+}

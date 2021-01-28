@@ -1,0 +1,38 @@
+.table {
+    margin-top: 100px;
+}
+
+
+.table-head {
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 11px;
+
+}
+
+
+@media screen and (max-width: 1200px){
+    .won{
+        display: none;   
+    }     
+    .drawn{
+        display: none
+    }
+    .lost{
+        display: none;
+    } 
+    .gf{
+        display: none;
+    }
+    .ga{
+        display: none;
+    }
+    .gd{
+        display: none;
+    }
+    .form{
+        display: none;
+    }
+    .next{
+        display: none;
+    }
+}

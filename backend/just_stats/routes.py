@@ -2,8 +2,8 @@ from flask import render_template,url_for,request,jsonify
 from flask_restful import Resource, marshal_with
 from just_stats import app, api
 from just_stats.models import Team,Player,Match_Player_Stats,Match,Upcoming_Match
-
 from just_stats.fields import upcomings_fields,teams_fields,matches_fields,players_fields
+
 
 import datetime
 

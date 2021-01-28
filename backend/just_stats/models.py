@@ -37,6 +37,7 @@ class Team(db.Model):
 class Player(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	name = db.Column(db.String(120), nullable=False)
+	
 	age = db.Column(db.Integer, nullable=False)
 	nationality = db.Column(db.String(120), nullable=False)
 	shirt_number = db.Column(db.String(5))
