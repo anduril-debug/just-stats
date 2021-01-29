@@ -14,14 +14,14 @@ export const teamsSlice = createSlice({
         },
 
         getTeamsSuccess: (state, { payload }) => {
-            state.isLoading = false,
-                state.hasError = false,
-                state.teams = payload
+            state.isLoading = false
+            state.hasError = false
+            state.teams = payload
         },
 
         getTeamsFailure: state => {
-            state.isLoading = false,
-                state.hasError = true
+            state.isLoading = false
+            state.hasError = true
         }
     }
 
