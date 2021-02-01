@@ -5,9 +5,15 @@ from just_stats import db
 
 class Match(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
-	first_team = db.Column(db.String(120), nullable=False)
+
+	first_team_id = db.Column(db.Integer, db.ForeignKey('team.id'), nullable=False)
+	first_team = db.relationship("Team", foreign_keys=[first_team_id])
+	
 	first_team_score = db.Column(db.Integer, nullable=False)
-	second_team = db.Column(db.String(120), nullable=False)
+
+	second_team_id = db.Column(db.Integer, db.ForeignKey('team.id'), nullable=False)
+	second_team = db.relationship("Team", foreign_keys=[second_team_id])
+
 	second_team_score = db.Column(db.Integer, nullable=False)
 	team1_pos = db.Column(db.String(5))
 	team2_pos = db.Column(db.String(5))
@@ -29,7 +35,7 @@ class Team(db.Model):
 	goals_scored = db.Column(db.Integer, nullable=False)
 	goals_concended = db.Column(db.Integer, nullable=False)
 	players = db.relationship("Player", backref="team", lazy=True)
-
+	
 	def __repr__(self):
 		return f"{self.name}"
 
