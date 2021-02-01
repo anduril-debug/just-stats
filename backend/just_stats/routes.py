@@ -4,6 +4,7 @@ from just_stats import app, api
 from just_stats.models import Team,Player,Match_Player_Stats,Match,Upcoming_Match
 from just_stats.fields import upcomings_fields,teams_fields,matches_fields,players_fields
 
+from sqlalchemy import or_
 
 import datetime
 
@@ -106,6 +107,8 @@ class All_Matches(Resource):
 		matchs = Match.query.all()
 		return matchs,201
 
+		
+
 
 class All_Players(Resource):
 	@marshal_with(players_fields)
@@ -119,6 +122,8 @@ class Player_Details(Resource):
 	def get(self,player_id):
 		player = Player.query.filter_by(id = player_id).first()
 		return player,201
+	
+
 
 api.add_resource(Upcomings, '/api/upcomings')
 api.add_resource(All_Teams, '/api/teams')
