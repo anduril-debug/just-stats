@@ -4,22 +4,28 @@ import requests
 
 
 def get_all_match_links(link):
+	try:
+		r = requests.get(link)
 
-	r = requests.get(link)
+		soup = BeautifulSoup(r.content, 'html.parser')
+		scores = soup.find_all(attrs={"data-stat": "score"})
 
-	soup = BeautifulSoup(r.content, 'html.parser')
-	scores = soup.find_all(attrs={"data-stat": "score"})
+		all_matches_links = []
 
-	all_matches_links = []
+		for i in scores:
+			if len(i) > 0:
+				all_matches_links.append((str(i.a)[9:-9]))
 
-	for i in scores:
-		if len(i) > 0:
-			all_matches_links.append((str(i.a)[9:-9]))
+		return all_matches_links
 
-	return all_matches_links
-
+	except Exception as e:
+		print("######## can't get links #########")
+		print("########## get_all_match_links ########")
+		raise e
 
 def get_match(link):
+	
+
 	r = requests.get("https://fbref.com/"+link)
 	all_teams = ["Arsenal","Aston Villa","Brighton & Hove Albion","Burnley","Chelsea","Crystal Palace","Everton","Fulham","Leeds United","Leicester City","Liverpool","Manchester City","Manchester United","Newcastle United","Sheffield United","Southampton","Tottenham Hotspur","West Bromwich Albion","West Ham United","Wolverhampton Wanderers"]
 	soup = BeautifulSoup(r.content, 'html.parser')
