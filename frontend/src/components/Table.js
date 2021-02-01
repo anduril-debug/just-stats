@@ -10,10 +10,6 @@ function Table() {
     const { isLoading, hasError, teams } = useSelector(teamsSelector)
 
 
-    console.log(isLoading)
-    console.log(hasError)
-    console.log(teams)
-
 
     if (isLoading) return <p>Loading....</p>
     if (hasError) return <p>something went wrong...</p>
@@ -50,10 +46,10 @@ function Table() {
                     </tr>
                 </thead>
                 <tbody>
-                    {teams.map(team =>
+                    {teams.map((team, index) =>
                         <tr key={team.id}>
-                            <td className="position" scope="row">1</td>
-                            <td className="club"><img /> {team.name}</td>
+                            <td className="position" >{index + 1}</td>
+                            <td className="club">{team.name}</td>
                             <td className="played">{team.wins + team.draws + team.loses}</td>
                             <td className="won">{team.wins}</td>
                             <td className="drawn">{team.draws}</td>

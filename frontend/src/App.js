@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 
 
 import { fetchTeams } from './redux/teams/teamsSlice';
-
+import { fetchMatches } from './redux/matches/matchesSlice';
 
 
 function App() {
@@ -19,6 +19,7 @@ function App() {
 
   useEffect(() => {
     dispatch(fetchTeams())
+    dispatch(fetchMatches())
   }, [dispatch])
 
   return (
