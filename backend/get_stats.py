@@ -17,8 +17,8 @@ def link_is_used(link):
 
 def update_teams(team1, team2, team1_score, team2_score):
 
-	t1 = Team.query.filter_by(name = team1).first()
-	t2 = Team.query.filter_by(name = team2).first()
+	t1 = Team.query.filter_by(id = team1).first()
+	t2 = Team.query.filter_by(id = team2).first()
 
 	t1.goals_scored += team1_score
 	t2.goals_scored += team2_score
@@ -117,7 +117,7 @@ def set_players_match_stats(players, match_id):
 
 
 def main(link):
-
+	
 	all_matches_links = get_all_match_links(link)[1:]
 
 	for match in all_matches_links:
@@ -128,19 +128,35 @@ def main(link):
 
 		print(match)
 		m = get_match(match)
+
+		first_team_id = Team.query.filter_by(name=m['team1']).first().id
+		second_team_id = Team.query.filter_by(name=m['team2']).first().id
 		
-		current_match = Match(first_team = m['team1'], first_team_score = int(m['team1_score']),
-								second_team = m['team2'], second_team_score = int(m['team2_score']),
+		current_match = Match( first_team_score = int(m['team1_score']),
+								first_team_id = first_team_id, second_team_id = second_team_id,
+								 second_team_score = int(m['team2_score']),
 								team1_pos = get_match_possessions(match)['team1_possession'],
 								team2_pos = get_match_possessions(match)['team2_possession'],
 								date = m['date'])
-		db.session.add(current_match)
-		db.session.commit()
+		
+		len_all_games = len(Match.query.all())
+
+		try:
+			db.session.add(current_match)
+			db.session.commit()
+		except Exception as e:
+			len_all_games_updated = len(Match.query.all())
+
+			if len_all_games_updated > len_all_games:
+				db.sessin.delete(current_match)
+				db.session.commit()
+
+			raise e
 		
 		print(current_match)
 		print(current_match.date)
 
-		update_teams(current_match.first_team, current_match.second_team,
+		update_teams(current_match.first_team_id, current_match.second_team_id,
 					 current_match.first_team_score, current_match.second_team_score)
 
 		players = get_players_stats(match)
