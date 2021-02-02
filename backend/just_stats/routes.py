@@ -7,6 +7,7 @@ from just_stats.fields import upcomings_fields,teams_fields,matches_fields,playe
 from sqlalchemy import or_
 
 import datetime
+from json import JSONEncoder
 
 # @app.route('/')
 # def index():
@@ -85,8 +86,6 @@ import datetime
 
 
 
-
-
 class Upcomings(Resource):
 	@marshal_with(upcomings_fields)
 	def get(self):
@@ -107,8 +106,53 @@ class All_Matches(Resource):
 		matchs = Match.query.all()
 		return matchs,201
 
-		
 
+class All_Last_Five(Resource):
+	def get(self):
+		teams = Team.query.order_by(Team.id).all()
+		last_games = []
+	
+
+		for team in teams:
+			team_name = team.name
+			form = []
+			last_five = team.last_five()
+
+			for game in last_five[::-1]:
+				if game.team_won() == team:
+					form.append({
+						"result": "W",
+						"id": game.id
+						})
+				elif game.team_won() == "Draw":
+					form.append({
+						"result": "D",
+						"id": game.id
+					})
+				else:
+					form.append({
+						"result": "L",
+						"id": game.id
+					})
+
+
+			last_games.append({ 
+				"name" : team_name,
+				"form" : form
+			})
+
+
+
+		return last_games, 201
+
+
+class Last_Five(Resource):
+	@marshal_with(matches_fields)
+	def get(self, team_name):
+		last_five = Team.query.filter_by(name = team_name).first().last_five()
+
+		return last_five, 201
+			
 
 class All_Players(Resource):
 	@marshal_with(players_fields)
@@ -130,3 +174,5 @@ api.add_resource(All_Teams, '/api/teams')
 api.add_resource(All_Matches, '/api/matches')
 api.add_resource(All_Players, '/api/players')
 api.add_resource(Player_Details,'/api/player/<int:player_id>')
+api.add_resource(Last_Five, '/api/last_five/<team_name>')
+api.add_resource(All_Last_Five, '/api/all_last_five')

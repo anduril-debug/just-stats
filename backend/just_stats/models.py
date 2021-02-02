@@ -1,7 +1,8 @@
 from just_stats import db
+from sqlalchemy import or_
 
 
-
+import json
 
 class Match(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
@@ -20,6 +21,20 @@ class Match(db.Model):
 	date = db.Column(db.String(120), nullable=False)
 	players_stats = db.relationship("Match_Player_Stats", backref='match', lazy=True)
 
+
+
+	def team_won(self):
+		if self.first_team_score > self.second_team_score:
+			return self.first_team
+		elif self.first_team_score < self.second_team_score:
+			return self.second_team
+		else:
+			return "Draw"
+
+
+
+
+ 
 	def __repr__(self):
 		return f"{self.first_team} {self.first_team_score} - {self.second_team_score} {self.second_team}"
 
@@ -36,6 +51,14 @@ class Team(db.Model):
 	goals_concended = db.Column(db.Integer, nullable=False)
 	players = db.relationship("Player", backref="team", lazy=True)
 	
+
+	def last_five(self):
+		
+		matches = Match.query.filter(or_(Match.first_team_id == self.id, Match.second_team_id == self.id)).all()[-5:]
+		return matches
+
+
+
 	def __repr__(self):
 		return f"{self.name}"
 
