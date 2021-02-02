@@ -1,50 +1,56 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 
 export const matchesSlice = createSlice({
     name: "matches",
     initialState: {
-        all_matches: [],
-        isLoading: false,
-        hasErrors: false
+        lastFive: [],
+        lastFiveLoading: false,
+        lastFiveHasErrors: false,
     },
     reducers: {
-
-        getMatches: state => {
-            state.isLoading = true
-        },
-
-        getMatchesSuccess: (state, { payload }) => {
-            state.all_matches = payload
-            state.isLoading = false
-            state.hasErrors = false
+        getLastFive: state => {
+            state.lastFiveLoading = true
         },
 
 
-        getMatchesFailure: state => {
-            state.hasErrors = true
+        getLastFiveSuccess: (state, { payload }) => {
+            state.lastFiveLoading = false
+            state.lastFive = payload
+        },
+
+
+        getLastFiveFailure: state => {
+            state.lastFiveHasErrors = true
+            state.lastFiveLoading = false
         }
-    }
 
+    }
 })
 
 
-export function fetchMatches() {
+export function fetchLastFive() {
     return async dispatch => {
-        dispatch(getMatches())
+        dispatch(getLastFive())
 
         try {
-            const res = await fetch('http://localhost:5000/api/matches')
+
+            const res = await fetch(`http://localhost:5000/api/all_last_five`)
             const data = await res.json()
 
-            dispatch(getMatchesSuccess(data))
+            dispatch(getLastFiveSuccess(data))
+
+        } catch (err) {
+            dispatch(getLastFiveFailure())
         }
-        catch (err) {
-            console.log(err)
-            dispatch(getMatchesFailure())
-        }
+
+
     }
+
 }
 
-export const { getMatches, getMatchesSuccess, getMatchesFailure } = matchesSlice.actions
+
+export const matchesSelector = state => state.matches
+
+export const { getLastFive, getLastFiveSuccess, getLastFiveFailure } = matchesSlice.actions
 export default matchesSlice.reducer
