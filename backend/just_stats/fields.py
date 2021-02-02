@@ -41,3 +41,5 @@ players_fields = {
 	'total_assists' : fields.Integer,
 	'team': fields.String 
 }
+
+
