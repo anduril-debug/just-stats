@@ -5,21 +5,19 @@ import Content from './components/Content';
 import Table from './components/Table';
 import { useDispatch } from 'react-redux';
 
-
 import { fetchTeams } from './redux/teams/teamsSlice';
-import { fetchMatches } from './redux/matches/matchesSlice';
-
+import { fetchLastFive } from './redux/matches/matchesSlice';
 
 function App() {
 
 
   const dispatch = useDispatch()
-  // const { isLoading, hasError, teams } = useSelector(teamsSelector)
+
 
 
   useEffect(() => {
     dispatch(fetchTeams())
-    dispatch(fetchMatches())
+    dispatch(fetchLastFive())
   }, [dispatch])
 
   return (
