@@ -1,0 +1,26 @@
+.circle{
+    height: 25px;
+    width: 25px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    text-align: center;
+    font-weight: 400;
+}
+.win-circle {
+    background-color: green;
+
+}
+
+.draw-circle {
+    background-color: orange;
+}
+
+
+.lose-circle{
+    background-color: red;
+}
+
+.gray {
+    background-color: #bbb;
+}

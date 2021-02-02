@@ -1,27 +1,31 @@
-import React, { } from 'react';
+import React, { useState } from 'react';
 import './Table.css';
 import { teamsSelector } from '../redux/teams/teamsSlice';
+import { matchesSelector } from '../redux/matches/matchesSlice';
 import { useSelector } from 'react-redux';
 
+import LastFiveForm from './LastFiveForm';
+
+import Arsenal from '../assets/club-logos/Arsenal.png'
 
 
 function Table() {
 
     const { isLoading, hasError, teams } = useSelector(teamsSelector)
 
+    const { lastFive } = useSelector(matchesSelector)
+
+    const forms = useState({})
+
+
+    if (lastFive.length !== 0) {
+        lastFive.map(team => forms[team["name"]] = team["form"])
+    }
+
 
 
     if (isLoading) return <p>Loading....</p>
     if (hasError) return <p>something went wrong...</p>
-
-
-
-
-
-
-
-
-
 
     return (
         <>
@@ -49,7 +53,7 @@ function Table() {
                     {teams.map((team, index) =>
                         <tr key={team.id}>
                             <td className="position" >{index + 1}</td>
-                            <td className="club">{team.name}</td>
+                            <td className="club">{team.name} <img src={Arsenal} alt="X" />  </td>
                             <td className="played">{team.wins + team.draws + team.loses}</td>
                             <td className="won">{team.wins}</td>
                             <td className="drawn">{team.draws}</td>
@@ -58,7 +62,8 @@ function Table() {
                             <td className="ga">{team.goal_concended}</td>
                             <td className="gd">11</td>
                             <td className="points">{team.points}</td>
-                            <td className="form">GOOOD</td>
+                            <td className="form"><LastFiveForm form={forms[team.name]} />
+                            </td>
                             <td className="next">BEEOEOEOEOM</td>
                         </tr>)}
 
