@@ -89,8 +89,16 @@ def update_players(team, team_name):
 			player = Player(name = p['name'], age = int(p['age'][:2]), nationality = p['nationality'],
 							shirt_number = p['shirt_number'], total_matches = 1,
 							total_goals = p['goals'], total_assists = p['assists'], team_id = find_team_id(team_name))
-			db.session.add(player)
-			db.session.commit()
+
+			try:
+				db.session.add(player)
+				db.session.commit()
+			except Exception as e:
+
+				db.session.add(player)
+				db.session.commit()
+				raise e
+			
 			print('added new player ' + player.name)
 
 def set_players_match_stats(players, match_id):
@@ -110,9 +118,16 @@ def set_players_match_stats(players, match_id):
 					passes = int(player['passes']), passes_completed = int(player['passes_completed']), passes_pct = float(player['passes_pct']), passes_progressive_distance = int(player['passes_progressive_distance']),
 					carries = int(player['carries']), carry_progressive_distance = int(player['carry_progressive_distance']), dribbles = int(player['dribbles']), dribbles_completed = int(player['dribbles_completed']))
 		print("added current match stats for " + player['name'])
-		db.session.add(stats)
-		db.session.commit()
 
+		try:
+			db.session.add(stats)
+			db.session.commit()
+		except Exception as e:
+
+			db.session.add(stats)
+			db.session.commit()	
+
+			raise e
 
 
 
@@ -139,17 +154,14 @@ def main(link):
 								team2_pos = get_match_possessions(match)['team2_possession'],
 								date = m['date'])
 		
-		len_all_games = len(Match.query.all())
 
 		try:
 			db.session.add(current_match)
 			db.session.commit()
 		except Exception as e:
-			len_all_games_updated = len(Match.query.all())
 
-			if len_all_games_updated > len_all_games:
-				db.sessin.delete(current_match)
-				db.session.commit()
+			db.sessin.delete(current_match)
+			db.session.commit()
 
 			raise e
 		
@@ -170,10 +182,14 @@ def main(link):
 		set_players_match_stats(players['team2'], match_id = current_match.id)
 
 		used_link = Used_Link(used_link = match)
-		db.session.add(used_link)
-		db.session.commit()
+		try:
+			db.session.add(used_link)
+			db.session.commit()
+		except Exception as e:
+			db.session.delete(current_match)
+			db.session.commit()
 
-
+			raise e
 
 def upcoming_games():
 	upcomings = next_five_days("https://fbref.com/en/comps/9/schedule/Premier-League-Scores-and-Fixtures")
@@ -187,6 +203,14 @@ def upcoming_games():
 			team2 = match['team2'],
 			date = match['date_time'])
 
-		db.session.add(current_match)
-		db.session.commit()
+		try:
+			db.session.add(current_match)
+			db.session.commit()
+		except Exception as e:
+
+			db.sessin.delete(current_match)
+			db.session.commit()
+
+			raise e
+
 	return upcomings

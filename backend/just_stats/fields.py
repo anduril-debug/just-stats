@@ -17,6 +17,7 @@ teams_fields = {
 	'loses' : fields.Integer,
 	'goals_scored' : fields.Integer,
 	'goals_concended' : fields.Integer,
+	'short_name' : fields.String 
 }
 
 matches_fields = {

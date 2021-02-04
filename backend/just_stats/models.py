@@ -49,6 +49,8 @@ class Team(db.Model):
 	loses = db.Column(db.Integer, nullable=False)
 	goals_scored = db.Column(db.Integer, nullable=False)
 	goals_concended = db.Column(db.Integer, nullable=False)
+	short_name = db.Column(db.String(10), nullable=False)
+	nickname = db.Column(db.String(120), nullable=False)
 	players = db.relationship("Player", backref="team", lazy=True)
 	
 
