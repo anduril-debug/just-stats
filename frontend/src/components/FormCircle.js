@@ -9,21 +9,23 @@ const FormCircle = (props) => {
     if (props.letter === "W") {
         return (
             <>
-                <span className="circle win-circle">{props.letter}</span>
+                <button className="circle win-circle" title={props.score}>{props.letter}</button>
             </>
         )
     }
     else if (props.letter === "D") {
         return (
             <>
-                <span className="circle draw-circle">{props.letter}</span>
+                <button className="circle draw-circle" title={props.score}>{props.letter}</button>
+
             </>
         )
     }
     else {
         return (
             <>
-                <span className="circle lose-circle">{props.letter}</span>
+                <button className="circle lose-circle" title={props.score}>{props.letter}</button>
+
             </>
         )
     }

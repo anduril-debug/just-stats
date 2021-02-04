@@ -9,6 +9,14 @@
 
 }
 
+.club-logo {
+    width: 30px;
+}
+
+#hidden-span {
+    opacity: 0;
+}
+
 
 @media screen and (max-width: 1200px){
     .won{

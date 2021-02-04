@@ -1,12 +1,28 @@
 .circle{
-    height: 25px;
-    width: 25px;
+    height: 30px;
+    width: 30px;
     background-color: #bbb;
     border-radius: 50%;
     display: inline-block;
     text-align: center;
     font-weight: 400;
+    margin-left: 2px;
+    padding: 0;
+    box-shadow: 0px 0px 0px transparent;
+    border: 0px solid transparent;
+    text-shadow: 0px 0px 0px transparent;
+    color: rgb(236, 230, 230);
 }
+
+.circle:focus{
+    outline: none;
+}
+
+.circle:hover {
+    box-shadow: 0px 0px 0px transparent;
+    border: 0px solid transparent;
+    text-shadow: 0px 0px 0px transparent;
+  }
 .win-circle {
     background-color: green;
 
@@ -23,4 +39,10 @@
 
 .gray {
     background-color: #bbb;
+}
+
+.hidden_score{
+    font-size: 13px;
+    font-weight: 500;
+    display: none;
 }

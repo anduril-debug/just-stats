@@ -9,7 +9,7 @@ const LastFiveForm = (props) => {
         return (
 
             <>
-                {props.form.map(game => <FormCircle key={game['id']} letter={game['result']} />)}
+                {props.form.map(game => <FormCircle score={game['score']} key={game['id']} letter={game['result']} />)}
 
             </>
         )
