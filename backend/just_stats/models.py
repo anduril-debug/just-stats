@@ -136,7 +136,3 @@ class Upcoming_Match(db.Model):
 		return self.team1 + " vs " + self.team2
 
 
-
-
-
-

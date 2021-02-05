@@ -10,6 +10,9 @@ import datetime
 from json import JSONEncoder
 
 
+@app.route('/upload')
+def index():
+	return render_template('main.html')
 
 class Upcomings(Resource):
 	@marshal_with(upcomings_fields)
